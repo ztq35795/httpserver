@@ -6,34 +6,25 @@ server_address = ('localhost',10000)
 #This is not a bug
 print('starting up on %s port %d' % server_address,file=sys.stderr)
 sock.bind(server_address)
-sock.listen(1)
+sock.listen(3)
 
 content=b'''HTTP/1.x 200 OK
 Content-Type:text/html
 
-<head>
-<title>WOW</title>
-</head>
-<html>
-<p>Wow, Python Server</p>
-</html>>
 '''
-#f = open('index.html','rb')
-#content = content + f.read()
-#f.close()
+f = open('index.html','rb')
+content = content + f.read()
+f.close()
 
 while True:
-    print('waitong for a connection',file=sys.stderr)
     connection,client_address = sock.accept()
+    request = connection.recv(1024).decode('UTF-8')
+    method = request.split(' ')[0]
+    src = request.split(' ')[1]
 
-    try:
-        print('connection from',client_address,file=sys.stderr)
+    if method == 'GET':
+        print('Connected by',client_address)
+        print('Request is',request)
+        connection.sendall(content)
 
-        while True:
-            data = connection.recv(1024)
-            if data:
-                connection.sendall(content)
-            else:
-                break
-    finally:
-        connection.close()
+    connection.close()
