@@ -29,39 +29,39 @@ class MYTCPHandler(socketserver.BaseRequestHandler):
 class CreateAndJudge():
     def __init__(self):
         self.t_content = b'''HTTP/1.x 200 OK
-        Content-Type:text/html
+Content-Type:text/html
 
-        '''
+'''
 
         self.p_content = b'''HTTP/1.x 200 OK
-        Content-Type:image/jpg
+Content-Type:image/jpg
 
-        '''
+'''
 
         self.NotFoundContent = b'''HTTP/1.x 404 Not Found
-        Content-Type:text/html
+Content-Type:text/html
 
-        '''
+'''
 
     def GetIndex(self):
         f = open('index.html','rb')
-        t_content = self.t_content + f.read()
+        self.t_content = self.t_content + f.read()
         f.close()
 
-        return t_content
+        return self.t_content
 
     def GetImage(self):
         f = open('arch.jpg','rb')
-        p_content = self.p_content + f.read()
+        self.p_content = self.p_content + f.read()
         f.close()
 
-        return p_content
+        return self.p_content
 
     def Get404Page(self):
         f = open('404page.html','rb')
-        NotFoundContent= self.NotFoundContent + f.read()
+        self.NotFoundContent= self.NotFoundContent + f.read()
         f.close()
-        return NotFoundContent
+        return self.NotFoundContent
 
     def isIndexRequested(self,src):
         if src == '/' or src == '/index.html':
