@@ -13,8 +13,16 @@ Content-Type:text/html
 
 '''
 f = open('index.html','rb')
-content = content + f.read()
+t_content = content + f.read()
 f.close()
+
+content=b'''HTTP/1.x 200 OK
+Content-Type:image/jpg
+
+'''
+f = open('arch.jpg','rb')
+p_content = content + f.read()
+f.close
 
 while True:
     connection,client_address = sock.accept()
@@ -25,6 +33,13 @@ while True:
     if method == 'GET':
         print('Connected by',client_address)
         print('Request is',request)
-        connection.sendall(content)
+
+        if src == '/arch.jpg':
+            outputcontent=p_content
+
+        else:
+            outputcontent=t_content
+
+        connection.sendall(outputcontent)
 
     connection.close()
