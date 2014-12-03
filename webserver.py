@@ -19,13 +19,14 @@ if __name__ == '__main__':
     t.start()
 
     s= socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    s.connect((ip,port))
-
+#    s.connect((ip,port))
+    s.bind((ip,port))
+    s.listen(1)
     message=b'Hello World'
-    print('sending:"%s"'%message)
-    len_sent=s.send(message)
+#    print('sending:"%s"'%message)
+#    len_sent=s.send(message)
 
-    response=s.recv(len_sent)
+    response=s.recv(16)
     print('Received: "%s"'%response)
 
     server.shutdown()
