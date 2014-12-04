@@ -2,7 +2,7 @@ import socketserver
 
 server_address = ('localhost',10000)
 
-class MYTCPHandler(socketserver.BaseRequestHandler):
+class MYTCPHandler(socketserver.StreamRequestHandler):
     def handle(self):
 
         tool=CreateAndJudge()
@@ -79,6 +79,6 @@ Content-Type:text/html
 
 
 
-server = socketserver.TCPServer(server_address,MYTCPHandler)
+server = socketserver.ThreadingTCPServer(server_address,MYTCPHandler)
 
 server.serve_forever()
